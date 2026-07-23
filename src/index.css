@@ -1104,3 +1104,88 @@ a { text-decoration: none; color: inherit; }
   gap: 10px;
   font-size: 1.05rem;
 }
+
+
+
+/* ============ Sequential letter view (inline, not an overlay) ============ */
+.modal--inline {
+  max-width: 420px;
+  margin: 0 auto 28px;
+}
+
+/* ============ Letter progress dots ============ */
+.letter-progress-strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.letter-progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(43, 34, 80, 0.12);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.letter-progress-dot--done {
+  background: var(--color-grass);
+}
+.letter-progress-dot--current {
+  background: var(--color-grape);
+  transform: scale(1.6);
+}
+
+/* ============ Learned-letter review strip ============ */
+.learned-review-strip {
+  max-width: 420px;
+  margin: 0 auto 18px;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+}
+.learned-review-strip__label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin: 0 0 10px;
+  text-align: center;
+}
+.learned-review-strip__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.learned-review-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: white;
+  box-shadow: 0 3px 0 rgba(43, 34, 80, 0.18);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.learned-review-chip:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(43, 34, 80, 0.18);
+}
+.learned-review-chip__emoji { font-size: 1.05rem; }
+
+.learned-review-chip--coral { background: var(--color-coral); box-shadow: 0 3px 0 var(--color-coral-dark); }
+.learned-review-chip--sky   { background: var(--color-sky);   box-shadow: 0 3px 0 var(--color-sky-dark); }
+.learned-review-chip--grass { background: var(--color-grass); box-shadow: 0 3px 0 var(--color-grass-dark); }
+.learned-review-chip--sun   { background: var(--color-sun);   color: var(--color-ink); box-shadow: 0 3px 0 var(--color-sun-dark); }
+.learned-review-chip--grape { background: var(--color-grape); box-shadow: 0 3px 0 var(--color-grape-dark); }
+
+@media (max-width: 640px) {
+  .learned-review-strip { padding: 12px; }
+  .learned-review-chip { padding: 5px 11px; font-size: 0.9rem; }
+}
