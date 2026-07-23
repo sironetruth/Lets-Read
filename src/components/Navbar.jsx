@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import Mascot from './Mascot'
 import VoiceSettings from './VoiceSettings'
 import { isSectionUnlocked } from '../utils/unlocks'
@@ -16,20 +16,43 @@ const links = [
 
 export default function Navbar() {
   const [accessory, setAccessory] = useState(null)
+  const { pathname } = useLocation()
 
   useEffect(() => {
     setAccessory(getEquippedAccessoryEmoji())
   }, [])
 
+  const isLessonPage = [
+    '/alphabet',
+    '/phonics',
+    '/words',
+    '/sentences',
+  ].includes(pathname)
+
+  // Show only a Home button on lesson pages
+  if (isLessonPage) {
+    return (
+      <header className="lesson-header">
+        <NavLink to="/" className="lesson-header__home">
+          🏠 Home
+        </NavLink>
+      </header>
+    )
+  }
+
   return (
     <header className="navbar">
       <NavLink to="/" className="navbar__brand" end>
-        <Mascot size={44} accessory={accessory} />
+        <Mascot size={38} accessory={accessory} />
         <span className="navbar__brand-text">Read With Me</span>
       </NavLink>
+
       <nav className="navbar__links">
         {links.map((link) => {
-          const locked = link.category ? !isSectionUnlocked(link.category) : false
+          const locked = link.category
+            ? !isSectionUnlocked(link.category)
+            : false
+
           return (
             <NavLink
               key={link.to}
@@ -39,12 +62,17 @@ export default function Navbar() {
                 `navbar__link ${isActive ? 'navbar__link--active' : ''}`
               }
             >
-              {locked && <span className="navbar__lock" aria-hidden="true">🔒</span>}
+              {locked && (
+                <span className="navbar__lock" aria-hidden="true">
+                  🔒
+                </span>
+              )}
               {link.label}
             </NavLink>
           )
         })}
       </nav>
+
       <VoiceSettings />
     </header>
   )
