@@ -32,7 +32,7 @@ export default function Words() {
 
   if (!unlocked) {
     return (
-      <div className="page">
+      <div className="page page--words">
         <LockedNotice requires="phonics" />
       </div>
     )
@@ -43,7 +43,7 @@ export default function Words() {
   const totalLearned = getCategoryCount('words')
 
   return (
-    <div className="page">
+    <div className="page page--words">
       <header className="page-header">
         <h1>Simple Words</h1>
         <p>Choose a topic, then tap a card to hear the word out loud.</p>

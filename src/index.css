@@ -148,15 +148,109 @@ a { text-decoration: none; color: inherit; }
 /* ============ Mascot ============ */
 .mascot { display: block; flex-shrink: 0; }
 .mascot--happy { animation: bob 3.2s ease-in-out infinite; }
+.mascot--excited { animation: bounce-wiggle 0.9s ease-in-out infinite; }
 .mascot__wing { transform-origin: 148px 110px; animation: flap 2.4s ease-in-out infinite; }
 
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+@keyframes bounce-wiggle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-10px) rotate(-4deg); }
+  60% { transform: translateY(0) rotate(4deg); }
+}
 @keyframes flap {
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(-8deg); }
+}
+
+/* ============ Mascot greeting banner ============ */
+.mascot-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 22px;
+}
+.mascot-banner__bubble {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(155, 114, 207, 0.08);
+  border: 3px solid var(--color-grape);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+}
+.mascot-banner__bubble::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: var(--color-grape);
+}
+.mascot-banner__bubble p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-ink);
+}
+.mascot-banner__play {
+  flex-shrink: 0;
+  border: none;
+  background: var(--color-grape);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+}
+
+/* ============ Letter mini-game (inside modal) ============ */
+.mini-game { margin-top: 22px; padding-top: 20px; border-top: 2px dashed rgba(43, 34, 80, 0.15); }
+.mini-game__prompt { font-family: var(--font-display); font-weight: 700; margin-bottom: 12px; }
+.mini-game__options { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.mini-game__option {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  border: 3px solid rgba(43, 34, 80, 0.15);
+  background: white;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--color-ink);
+  transition: transform 0.1s ease, border-color 0.1s ease;
+}
+.mini-game__option:active { transform: scale(0.94); }
+.mini-game__option--shake { animation: shake 0.4s ease; border-color: var(--color-coral); }
+.mini-game__option--correct { border-color: var(--color-grass); background: rgba(111, 207, 151, 0.15); }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.mini-game__feedback { font-family: var(--font-display); font-weight: 700; min-height: 1.4em; }
+.mini-game__feedback--correct { color: var(--color-grass-dark); }
+.mini-game__feedback--wrong { color: var(--color-coral-dark); }
+.mini-game__confetti {
+  font-size: 1.8rem;
+  letter-spacing: 6px;
+  animation: pop-in 0.4s ease;
+}
+@keyframes pop-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
 }
 
 /* ============ Hero ============ */
@@ -560,9 +654,39 @@ a { text-decoration: none; color: inherit; }
   .navbar__brand-text { font-size: 1.1rem; }
   .navbar__link { padding: 6px 12px; font-size: 0.85rem; }
   .app__main { padding: 16px 14px 50px; }
-  .letter-grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
+  .letter-grid { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 12px; }
+  .letter-card { padding: 22px 8px; min-height: 96px; }
   .card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
   .sentence-card__words { font-size: 1.15rem; }
+
+  /* Bottom-sheet style modal: easier to reach and dismiss with a thumb */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 28px 28px 0 0;
+    padding: 28px 20px 36px;
+    animation: sheet-up 0.25s ease-out;
+  }
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(43, 34, 80, 0.15);
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .mascot-banner { padding: 12px 14px; gap: 10px; }
+  .mascot-banner__bubble p { font-size: 0.95rem; }
+  .mini-game__option { width: 56px; height: 56px; font-size: 1.4rem; }
 }
 
 /* ============ Voice settings ============ */
@@ -825,4 +949,158 @@ a { text-decoration: none; color: inherit; }
   .road { gap: 4px; }
   .road__marker { width: 50px; height: 50px; font-size: 1.3rem; }
   .progress-detail__label { width: 80px; font-size: 0.85rem; }
+}
+
+/* ============ Mascot accessory overlay ============ */
+.mascot-wrap { position: relative; display: inline-block; line-height: 0; }
+.mascot-accessory {
+  position: absolute;
+  top: -8%;
+  left: 58%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px rgba(43, 34, 80, 0.25));
+}
+
+/* ============ Accessory picker (dress-up Kiwi) ============ */
+.accessory-picker {
+  margin-top: 16px;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-card);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.accessory-picker__title { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; }
+.accessory-picker__row { display: flex; gap: 8px; }
+.accessory-chip {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(43, 34, 80, 0.12);
+  background: white;
+  font-size: 1.3rem;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.accessory-chip:not(:disabled):hover { transform: translateY(-2px); }
+.accessory-chip--equipped { border-color: var(--color-grape); background: rgba(155, 114, 207, 0.12); }
+.accessory-chip--locked { opacity: 0.5; cursor: not-allowed; }
+
+/* ============ Badge wall ============ */
+.badge-wall { margin-top: 36px; }
+.badge-wall__title { text-align: center; margin-bottom: 16px; }
+.badge-wall__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 14px;
+}
+.badge-card {
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 16px 8px;
+  text-align: center;
+  border: 3px solid transparent;
+}
+.badge-card--earned { border-color: var(--color-sun); }
+.badge-card--locked { opacity: 0.55; }
+.badge-card__emoji { font-size: 2rem; margin-bottom: 6px; }
+.badge-card__label { font-family: var(--font-display); font-weight: 700; font-size: 0.8rem; }
+
+/* ============ Quiz hint glow ============ */
+.quiz-option--hint {
+  animation: hint-glow 1s ease-in-out infinite;
+  border-color: var(--color-sun);
+}
+@keyframes hint-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 201, 60, 0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 201, 60, 0); }
+}
+
+/* ============ Themed section backgrounds ============ */
+.page { position: relative; }
+.page::before, .page::after {
+  content: '';
+  position: absolute;
+  font-size: 9rem;
+  line-height: 1;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: -1;
+}
+.page::before { top: -10px; right: -10px; }
+.page::after { bottom: -10px; left: -10px; }
+.page--alphabet::before { content: '🌴'; }
+.page--alphabet::after { content: '🦋'; }
+.page--phonics::before { content: '🎵'; }
+.page--phonics::after { content: '🌊'; }
+.page--words::before { content: '🎈'; }
+.page--words::after { content: '🌟'; }
+.page--sentences::before { content: '📚'; }
+.page--sentences::after { content: '✏️'; }
+
+/* ============ Word builder (spell-the-word game) ============ */
+.word-builder { margin-top: 22px; padding-top: 20px; border-top: 2px dashed rgba(43, 34, 80, 0.15); }
+.word-builder__prompt { font-family: var(--font-display); font-weight: 700; margin-bottom: 14px; }
+
+.word-builder__slots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.word-slot {
+  min-width: 40px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  text-transform: lowercase;
+  border-radius: 10px;
+  border: 3px solid rgba(43, 34, 80, 0.12);
+  background: rgba(43, 34, 80, 0.03);
+}
+.word-slot--fixed { border: none; background: none; min-width: 14px; color: var(--color-ink-soft); }
+.word-slot--filled { background: rgba(111, 207, 151, 0.18); border-color: var(--color-grass); color: var(--color-ink); }
+.word-slot--ghost { color: rgba(43, 34, 80, 0.22); border-style: dashed; }
+
+.word-builder__tiles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.word-tile {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: none;
+  background: var(--color-coral);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  text-transform: lowercase;
+  box-shadow: 0 4px 0 var(--color-coral-dark);
+  transition: transform 0.08s ease;
+}
+.word-tile:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--color-coral-dark); }
+.word-tile--shake { animation: shake 0.4s ease; }
+
+.word-builder__success {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-grass-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
 }

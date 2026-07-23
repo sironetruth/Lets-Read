@@ -30,14 +30,14 @@ export default function Phonics() {
 
   if (!unlocked) {
     return (
-      <div className="page">
+      <div className="page page--phonics">
         <LockedNotice requires="alphabet" />
       </div>
     )
   }
 
   return (
-    <div className="page">
+    <div className="page page--phonics">
       <header className="page-header">
         <h1>Phonics Practice</h1>
         <p>Listen to each sound, then hear the words that use it.</p>

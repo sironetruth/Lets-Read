@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react'
 import Mascot from '../components/Mascot'
 import ProgressSummary from '../components/ProgressSummary'
 import CarAvatar from '../components/CarAvatar'
+import AccessoryPicker from '../components/AccessoryPicker'
 import { getCategoryCount, getTotalStars } from '../utils/progress'
+import { getEquippedAccessoryEmoji } from '../utils/accessories'
 import { alphabet } from '../data/alphabet'
 import { phonicsGroups } from '../data/phonics'
 import { wordCategories } from '../data/words'
@@ -53,9 +55,11 @@ const sections = [
 export default function Home() {
   const [stars, setStars] = useState(0)
   const [counts, setCounts] = useState({})
+  const [accessory, setAccessory] = useState(null)
 
   useEffect(() => {
     setStars(getTotalStars())
+    setAccessory(getEquippedAccessoryEmoji())
     const next = {}
     sections.forEach((s) => {
       next[s.category] = getCategoryCount(s.category)
@@ -66,7 +70,7 @@ export default function Home() {
   return (
     <div className="page home">
       <section className="hero">
-        <Mascot size={130} />
+        <Mascot size={130} accessory={accessory} />
         <h1 className="hero__title">Let's Read Together!</h1>
         <p className="hero__subtitle">
           Tap a card, listen to Kiwi the parrot say the word, and collect stars
@@ -78,6 +82,7 @@ export default function Home() {
           <span className="hero__car"><CarAvatar size={28} /></span>
         </div>
         <Link to="/progress" className="hero__progress-link">See my full progress →</Link>
+        <AccessoryPicker onChange={setAccessory} />
       </section>
 
       <section className="section-grid">

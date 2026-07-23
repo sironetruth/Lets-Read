@@ -102,3 +102,10 @@ export function speak(text, { rate = 0.8, pitch = 1.08, onEnd } = {}) {
 export function stopSpeaking() {
   if (isSpeechSupported()) window.speechSynthesis.cancel()
 }
+
+// A bouncier, higher-pitched preset used for Kiwi's own lines (greetings,
+// cheers) so the mascot feels like a distinct character rather than the
+// same neutral voice used to read words.
+export function speakAsCharacter(text, { onEnd } = {}) {
+  speak(text, { rate: 0.95, pitch: 1.4, onEnd })
+}

@@ -15,12 +15,14 @@ export default function FinalQuiz({ category, title, practiceMode = false }) {
   const questions = useMemo(() => buildQuestions(category, 5), [category, attempt])
   const [index, setIndex] = useState(0)
   const [feedback, setFeedback] = useState('idle') // idle | correct | wrong
+  const [wrongCount, setWrongCount] = useState(0)
   const [finished, setFinished] = useState(false)
 
   const question = questions[index]
 
   useEffect(() => {
     setFeedback('idle')
+    setWrongCount(0)
   }, [index])
 
   if (!questions.length) return null
@@ -48,6 +50,7 @@ export default function FinalQuiz({ category, title, practiceMode = false }) {
       setTimeout(advance, 900)
     } else {
       setFeedback('wrong')
+      setWrongCount((c) => c + 1)
     }
   }
 
@@ -96,23 +99,27 @@ export default function FinalQuiz({ category, title, practiceMode = false }) {
       </div>
 
       <div className="quiz-card__options">
-        {question.options.map((opt) => (
-          <button
-            key={opt.id}
-            className={`quiz-option ${feedback === 'correct' && opt.id === question.correctId ? 'quiz-option--correct' : ''}`}
-            onClick={() => handleTap(opt.id)}
-          >
-            {opt.emoji && <span className="quiz-option__emoji">{opt.emoji}</span>}
-            <span className={`quiz-option__label ${!opt.emoji ? 'quiz-option__label--big' : ''}`}>
-              {opt.label}
-            </span>
-          </button>
-        ))}
+        {question.options.map((opt) => {
+          const showHint = wrongCount >= 2 && opt.id === question.correctId && feedback !== 'correct'
+          return (
+            <button
+              key={opt.id}
+              className={`quiz-option ${feedback === 'correct' && opt.id === question.correctId ? 'quiz-option--correct' : ''} ${showHint ? 'quiz-option--hint' : ''}`}
+              onClick={() => handleTap(opt.id)}
+            >
+              {opt.emoji && <span className="quiz-option__emoji">{opt.emoji}</span>}
+              <span className={`quiz-option__label ${!opt.emoji ? 'quiz-option__label--big' : ''}`}>
+                {opt.label}
+              </span>
+            </button>
+          )
+        })}
       </div>
 
       {feedback === 'wrong' && (
         <div className="quiz-feedback quiz-feedback--wrong">
-          Not quite — try again! <button onClick={() => speak(question.speakText)}>🔊 Hear it</button>
+          {wrongCount >= 2 ? '💡 Here\'s a hint — look for the glowing one!' : 'Not quite — try again!'}{' '}
+          <button onClick={() => speak(question.speakText)}>🔊 Hear it</button>
         </div>
       )}
       {feedback === 'correct' && (

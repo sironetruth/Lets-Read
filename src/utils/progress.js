@@ -56,6 +56,12 @@ export function getCategoryCount(category) {
   return Object.values(categoryState).filter(Boolean).length
 }
 
+export function getCountByPrefix(category, prefix) {
+  const state = getProgress()
+  const categoryState = state[category] || {}
+  return Object.entries(categoryState).filter(([key, val]) => val && key.startsWith(prefix)).length
+}
+
 export function getTotalStars() {
   const state = getProgress()
   return Object.values(state).reduce((sum, cat) => {

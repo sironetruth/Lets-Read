@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Mascot from './Mascot'
 import VoiceSettings from './VoiceSettings'
 import { isSectionUnlocked } from '../utils/unlocks'
+import { getEquippedAccessoryEmoji } from '../utils/accessories'
 
 const links = [
   { to: '/', label: 'Home', end: true, category: null },
@@ -13,10 +15,16 @@ const links = [
 ]
 
 export default function Navbar() {
+  const [accessory, setAccessory] = useState(null)
+
+  useEffect(() => {
+    setAccessory(getEquippedAccessoryEmoji())
+  }, [])
+
   return (
     <header className="navbar">
       <NavLink to="/" className="navbar__brand" end>
-        <Mascot size={44} />
+        <Mascot size={44} accessory={accessory} />
         <span className="navbar__brand-text">Read With Me</span>
       </NavLink>
       <nav className="navbar__links">

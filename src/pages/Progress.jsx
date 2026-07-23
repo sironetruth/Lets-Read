@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getCategoryCount, getTotalStars } from '../utils/progress'
 import { hasPassedQuiz, isSectionUnlocked, CARS, getCarLevel } from '../utils/unlocks'
+import { BADGES } from '../utils/badges'
 import { alphabet } from '../data/alphabet'
 import { phonicsGroups } from '../data/phonics'
 import { wordCategories } from '../data/words'
@@ -79,6 +80,21 @@ export default function Progress() {
           )
         })}
       </div>
+
+      <section className="badge-wall">
+        <h2 className="badge-wall__title">🎖️ Badge Wall</h2>
+        <div className="badge-wall__grid">
+          {BADGES.map((badge) => {
+            const earned = badge.check()
+            return (
+              <div key={badge.id} className={`badge-card ${earned ? 'badge-card--earned' : 'badge-card--locked'}`}>
+                <div className="badge-card__emoji">{earned ? badge.emoji : '🔒'}</div>
+                <div className="badge-card__label">{badge.label}</div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
     </div>
   )
 }
